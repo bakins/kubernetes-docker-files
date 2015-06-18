@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+VERSION=${VERSION:-0.19.0}
+RELEASE=${RELEASE:-1}
+REPO=${REPO:-quay.io/kelseyhightower}
+
+for b in kube-apiserver kube-proxy kube-scheduler kube-controller-manager kubelet; do
+  if [ ! -f ${b}/${b} ]; then
+    curl -o ${b}/${b} -L https://storage.googleapis.com/kubernetes-release/release/v${VERSION}/bin/linux/amd64/${b}
+  fi
+  pushd ${b}
+  chmod +x ${b}
+  IMAGE=${REPO}/${b}:${VERSION}-${RELEASE}
+  docker build -t ${IMAGE} .
+  if [ "${PUSH}" = "yes" ]; then
+    docker push ${IMAGE}
+  fi
+  popd
+done

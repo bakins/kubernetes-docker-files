@@ -1,0 +1,5 @@
+kube-apiserver/kube-apiserver
+kube-controller-manager/kube-controller-manager
+kube-proxy/kube-proxy
+kube-scheduler/kube-scheduler
+kubelet/kubelet
